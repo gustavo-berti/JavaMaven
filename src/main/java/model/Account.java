@@ -17,18 +17,24 @@ public class Account {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
+	
 	@Column(name="operation_value")
-	private double operationValue;
+	private Double operationValue;
+	
 	@Column(name="transaction_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date transactionDate;
+	
 	@Column(name="description",length = 150, nullable = true, unique = true)
 	private String description;
+	
 	@Column(name="transaction_type")
 	private String transactionType;
+	
 	@Column(name="account_holder_name")
 	private String accountHolderName;
+	
 	@Column(name="account_holder_cpf")
 	private String accountHolderCpf;
 
@@ -36,19 +42,19 @@ public class Account {
 		super();
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public double getOperationValue() {
+	public Double getOperationValue() {
 		return operationValue;
 	}
 
-	public void setOperationValue(double operationValue) {
+	public void setOperationValue(Double operationValue) {
 		this.operationValue = operationValue;
 	}
 
@@ -92,4 +98,11 @@ public class Account {
 		this.accountHolderCpf = accountHolderCpf;
 	}
 
+	@Override
+	public String toString() {
+		return "Account [id=" + id + ", operationValue=" + operationValue + ", transactionDate=" + transactionDate
+				+ ", description=" + description + ", transactionType=" + transactionType + ", accountHolderName="
+				+ accountHolderName + ", accountHolderCpf=" + accountHolderCpf + "]";
+	}
+	
 }
