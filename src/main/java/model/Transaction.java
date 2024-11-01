@@ -32,17 +32,11 @@ public class Transaction {
 	@Column(name="transaction_type")
 	private String transactionType;
 	
-	@Column(name="operation_type")
-	private String operationType; //outflow and inflow
-	
 	@Column(name="account_holder_name")
 	private String accountHolderName;
 	
 	@Column(name="account_holder_cpf")
 	private String accountHolderCpf;
-	
-	@Column(name="balance")
-	private double balance;
 
 	public Transaction() {
 		super();
@@ -104,28 +98,11 @@ public class Transaction {
 		this.accountHolderCpf = accountHolderCpf;
 	}
 
-	public double getBalance() {
-		return balance;
-	}
-
-	public void setBalance(double balance) {
-		this.balance = balance;
-	}
-
-	public String getOperationType() {
-		return operationType;
-	}
-
-	public void setOperationType(String operationType) {
-		this.operationType = operationType;
-	}
-
 	@Override
 	public String toString() {
-		return "Account [id=" + id + ", operationValue=" + operationValue + ", transactionDate=" + transactionDate
-				+ ", description=" + description + ", transactionType=" + transactionType + ", operationType="
-				+ operationType + ", accountHolderName=" + accountHolderName + ", accountHolderCpf=" + accountHolderCpf
-				+ ", balance=" + balance + "]";
+		return "Transaction [id=" + id + ", operationValue=" + operationValue + ", transactionDate=" + transactionDate
+				+ ", description=" + description + ", transactionType=" + transactionType + ", accountHolderName="
+				+ accountHolderName + ", accountHolderCpf=" + accountHolderCpf + "]";
 	}
 	
 }

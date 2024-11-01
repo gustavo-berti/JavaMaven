@@ -1,5 +1,7 @@
 package util;
 
+import model.Transaction;
+
 public class TransactionUtils {
 	public static boolean validateCpf(String cpf) {
 		cpf = cpf.replace("-", "").replace(".", "");
@@ -44,6 +46,11 @@ public class TransactionUtils {
 		if(intCpf[10] != aux) {
 			return true;
 		}
+		return false;
+	}
+
+	public static boolean confirmBalance(Transaction transaction) {
+		
 		return false;
 	}
 }

@@ -14,7 +14,7 @@ public class TransactionService {
 			System.out.println("CPF Invalid");
 			return null;
 		}
-		if (transaction.getOperationType().equals("Outflow") && transaction.getBalance() - transaction.getOperationValue() < 0) {
+		if (TransactionUtils.confirmBalance(transaction)) {
 			System.out.println("Balance not sufficient");
 			return null;
 		}
@@ -22,8 +22,7 @@ public class TransactionService {
 			System.out.println("PIX values exceeded the limit");
 			return null;
 		}
-		transaction.setDescription(transaction.getOperationType() + ": " + transaction.getOperationValue() + "\n"
-				+ transaction.getTransactionType() + " Operation");
+		transaction.setDescription(transaction.getTransactionType() + " Operation");
 
 		transaction.setTransactionDate(new Date());
 		return dao.insert(transaction);

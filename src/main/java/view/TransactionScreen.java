@@ -15,9 +15,7 @@ public class TransactionScreen {
 		transaction.setAccountHolderName("Gustavo");
 		transaction.setTransactionDate(new Date());
 		transaction.setTransactionType("PIX");
-		transaction.setOperationType("Outflow");
 		transaction.setOperationValue(300.0);
-		transaction.setBalance(500.0);
 		
 		controller.insert(transaction);
 	}
