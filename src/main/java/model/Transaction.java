@@ -26,7 +26,7 @@ public class Transaction {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date transactionDate;
 	
-	@Column(name="description",length = 150, nullable = true, unique = true)
+	@Column(name="description",length = 150, nullable = true)
 	private String description;
 	
 	@Column(name="transaction_type")

@@ -1,23 +1,22 @@
-package view;
+package test;
 
 import java.util.Date;
+import java.util.List;
 
-import controller.TransactionController;
 import model.Transaction;
+import service.TransactionService;
+import util.TransactionUtils;
 
-public class TransactionScreen {
-
-	public static void main(String[] args) {
-		TransactionController controller = new TransactionController();
-		Transaction transaction = new Transaction();
+public class Main {
+    public static void main(String[] args) {
+        Transaction transaction = new Transaction();
+        TransactionService service = new TransactionService();
 		
 		transaction.setAccountHolderCpf("123.456.789-09");
 		transaction.setAccountHolderName("Gustavo");
 		transaction.setTransactionDate(new Date());
 		transaction.setTransactionType("Withdrawal");
 		transaction.setOperationValue(200.0);
-		
-		controller.insert(transaction);
-	}
 
+    }
 }

@@ -1,6 +1,7 @@
 package service;
 
 import java.util.Date;
+import java.util.List;
 
 import dao.TransactionDao;
 import model.Transaction;
@@ -10,21 +11,16 @@ public class TransactionService {
 	TransactionDao dao = new TransactionDao();
 
 	public Transaction insert(Transaction transaction) {
-		if (!TransactionUtils.validateCpf(transaction.getAccountHolderCpf())) {
-			System.out.println("CPF Invalid");
-			return null;
-		}
-		if (TransactionUtils.confirmBalance(transaction)) {
-			System.out.println("Balance not sufficient");
-			return null;
-		}
-		if (transaction.getTransactionType().equals("PIX") && transaction.getOperationValue() > 300) {
-			System.out.println("PIX values exceeded the limit");
+		if (TransactionUtils.transactionValid(transaction)) {
 			return null;
 		}
 		transaction.setDescription(transaction.getTransactionType() + " Operation");
-
 		transaction.setTransactionDate(new Date());
 		return dao.insert(transaction);
 	}
+
+	public List<Transaction> listAllByCpf(String transactionType) {
+		return dao.listAllByCpf(transactionType);
+	}
+
 }

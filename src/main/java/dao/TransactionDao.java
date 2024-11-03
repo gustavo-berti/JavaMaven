@@ -76,7 +76,7 @@ public class TransactionDao {
 
 	public List<Transaction> listAll() {
 		try {
-			List<Transaction> transactions = em.createQuery("FROM transaction").getResultList();
+			List<Transaction> transactions = em.createQuery("from Transaction").getResultList();
 			em.close();
 			return transactions;
 		} catch (Exception e) {
@@ -88,7 +88,7 @@ public class TransactionDao {
 
 	public List<Transaction> listAllByCpf(String accountHolderCpf) {
 		try {
-			List<Transaction> transactions = em.createQuery("FROM transaction WHERE accountHolderCpf = '" + accountHolderCpf+"'").getResultList();
+			List<Transaction> transactions = em.createQuery("FROM Transaction WHERE accountHolderCpf = '" + accountHolderCpf+"'").getResultList();
 			em.close();
 			return transactions;
 		} catch (Exception e) {
@@ -100,7 +100,7 @@ public class TransactionDao {
 
 	public List<Transaction> listAllByTransactionType(String transactionType) {
 		try {
-			List<Transaction> transactions = em.createQuery("FROM transaction WHERE transactionType = '" + transactionType+"'").getResultList();
+			List<Transaction> transactions = em.createQuery("FROM Transaction WHERE transactionType = '" + transactionType+"'").getResultList();
 			em.close();
 			return transactions;
 		} catch (Exception e) {
