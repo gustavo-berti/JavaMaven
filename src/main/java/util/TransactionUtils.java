@@ -30,7 +30,68 @@ public class TransactionUtils {
 			System.out.println("Withdrawal limit exceeded");
 			return true;
 		}
+		if (TransactionUtils.timePIX(transaction)) {
+			System.out.println("PIX not available at this time");
+			return true;
+		}
+		if (TransactionUtils.operationLimit(transactions)) {
+			System.out.println("Daily operation limit exceeded");
+			return true;
+		}
+		if (TransactionUtils.getBalance(transactions)-transaction.getOperationValue() < 100 && !transaction.getTransactionType().equals("Deposit")) {
+			System.out.println("Balance less than 100");
+		}
+		TransactionUtils.transactionFee(transaction);
 		return false;
+	}
+
+	private static boolean operationLimit(List<Transaction> transactions) {
+		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		Date day = null;
+		int operationCount = 0;
+
+		try {
+			day = formatter.parse(formatter.format(new Date()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		for (Transaction t : transactions) {
+			Date dayT = null;
+			try {
+				dayT = formatter.parse(formatter.format(t.getTransactionDate()));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			if (dayT.equals(day)) {
+				operationCount++;
+			}
+		}
+		if(operationCount >= 10) {
+			return true;
+		}
+		return false;
+	}
+
+	private static boolean timePIX(Transaction transaction) {
+		if (transaction.getTransactionType().equals("PIX")) {
+			DateFormat formatter = new SimpleDateFormat("HH:mm");
+			String hour = formatter.format(transaction.getTransactionDate());
+			if (hour.compareTo("06:00") < 0 || hour.compareTo("22:00") > 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private static void transactionFee(Transaction transaction) {
+		if (transaction.getTransactionType().equals("Withdrawal")) {
+			transaction.setOperationValue(transaction.getOperationValue() + 2);
+			System.out.println("Withdrawal fee: 2\nNew value: " + transaction.getOperationValue());
+		}
+		if (transaction.getTransactionType().equals("Payment")) {
+			transaction.setOperationValue(transaction.getOperationValue() + 5);
+			System.out.println("Payment fee: 5\nNew value: " + transaction.getOperationValue());
+		}
 	}
 
 	private static boolean withdrawalLimit(Transaction transaction, List<Transaction> transactions) {
@@ -44,7 +105,7 @@ public class TransactionUtils {
 			day = formatter.parse(formatter.format(transaction.getTransactionDate()));
 		} catch (ParseException e) {
 			e.printStackTrace();
-		}		
+		}
 		for (Transaction t : transactions) {
 			Date dayT = null;
 			try {
