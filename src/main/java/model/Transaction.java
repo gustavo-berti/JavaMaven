@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,11 +34,10 @@ public class Transaction {
 	@Column(name="transaction_type")
 	private String transactionType;
 	
-	@Column(name="account_holder_name")
-	private String accountHolderName;
-	
-	@Column(name="account_holder_cpf")
-	private String accountHolderCpf;
+	@ManyToOne
+	@JoinColumn(name="id_account")
+	@Column(name="account")
+	private Account account;	
 
 	public Transaction() {
 		super();
@@ -82,27 +83,19 @@ public class Transaction {
 		this.transactionType = transactionType;
 	}
 
-	public String getAccountHolderName() {
-		return accountHolderName;
+	public Account getAccount() {
+		return account;
 	}
 
-	public void setAccountHolderName(String accountHolderName) {
-		this.accountHolderName = accountHolderName;
-	}
-
-	public String getAccountHolderCpf() {
-		return accountHolderCpf;
-	}
-
-	public void setAccountHolderCpf(String accountHolderCpf) {
-		this.accountHolderCpf = accountHolderCpf;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	@Override
 	public String toString() {
 		return "Transaction [id=" + id + ", operationValue=" + operationValue + ", transactionDate=" + transactionDate
-				+ ", description=" + description + ", transactionType=" + transactionType + ", accountHolderName="
-				+ accountHolderName + ", accountHolderCpf=" + accountHolderCpf + "]";
+				+ ", description=" + description + ", transactionType=" + transactionType + ", account=" + account
+				+ "]";
 	}
 	
 }

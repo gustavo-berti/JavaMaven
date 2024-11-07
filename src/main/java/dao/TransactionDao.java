@@ -74,6 +74,12 @@ public class TransactionDao {
 			e.printStackTrace();
 		}
 	}
+	
+	private Transaction findById(Long id) {
+		Transaction transaction = em.find(Transaction.class, id);
+		em.close();
+		return transaction;
+	}
 
 	public List<Transaction> listAll() {
 		try {
@@ -109,13 +115,6 @@ public class TransactionDao {
 			return null;
 		}
 	}
-
-	private Transaction findById(Long id) {
-		Transaction transaction = em.find(Transaction.class, id);
-		em.close();
-		return transaction;
-	}
-
 		
 	public List<Transaction> balanceInquiryMonth(String accountHolderCpf, String date) {
 		try {

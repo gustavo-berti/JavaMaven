@@ -13,8 +13,8 @@ public class TransactionUtils {
 	private static TransactionService service = new TransactionService();
 
 	public static boolean transactionValid(Transaction transaction) {
-		List<Transaction> transactions = service.listAllByCpf(transaction.getAccountHolderCpf());
-		if (!TransactionUtils.validateCpf(transaction.getAccountHolderCpf())) {
+		List<Transaction> transactions = service.listAllByCpf(transaction.getAccount().getClient().getCpf());
+		if (!TransactionUtils.validateCpf(transaction.getAccount().getClient().getCpf())) {
 			System.out.println("CPF Invalid");
 			return true;
 		}
