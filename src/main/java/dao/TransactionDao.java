@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -114,4 +115,28 @@ public class TransactionDao {
 		em.close();
 		return transaction;
 	}
+
+		
+	public List<Transaction> balanceInquiryMonth(String accountHolderCpf, String date) {
+		try {
+			List<Transaction> transactions = em.createQuery("FROM Transaction WHERE accountHolderCpf = '" + accountHolderCpf+"' AND transaction_date BETWEEN '"+ date+"-01' AND '"+date+"-31'").getResultList();
+			em.close();
+			return transactions;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public List<Transaction> balanceInquiryPeriod(String accountHolderCpf, String startDateStr, String endDateStr) {
+		try {
+			List<Transaction> transactions = em.createQuery("FROM Transaction WHERE accountHolderCpf = '" + accountHolderCpf+"' AND transaction_date BETWEEN '"+ startDateStr+"' AND '"+endDateStr+"'").getResultList();
+			em.close();
+			return transactions;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 }

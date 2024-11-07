@@ -41,8 +41,27 @@ public class TransactionUtils {
 		if (TransactionUtils.getBalance(transactions)-transaction.getOperationValue() < 100 && !transaction.getTransactionType().equals("Deposit")) {
 			System.out.println("Balance less than 100");
 		}
+		if (TransactionUtils.isFraud(transactions)) {
+			System.out.println("Fraud detected");
+			return true;
+		}
 		TransactionUtils.transactionFee(transaction);
 		return false;
+	}
+
+	private static boolean isFraud(List<Transaction> transactions){
+		double total = 0;
+		int count = 0;
+		for (Transaction transaction : transactions) {
+			if (!transaction.getTransactionType().equals("Deposit")) {
+				total += transaction.getOperationValue();
+				count++;
+			}
+		}
+		if(total+1000 > total/count && count != 0){
+			return false;
+		}
+		return true;
 	}
 
 	private static boolean operationLimit(List<Transaction> transactions) {
