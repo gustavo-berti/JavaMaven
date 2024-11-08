@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import model.enums.TransactionType;
+
 @Entity
 @Table(name="transaction")
 public class Transaction {
@@ -32,7 +34,7 @@ public class Transaction {
 	private String description;
 	
 	@Column(name="transaction_type")
-	private String transactionType;
+	private TransactionType transactionType;
 	
 	@ManyToOne
 	@JoinColumn(name="id_account")
@@ -75,11 +77,11 @@ public class Transaction {
 		this.description = description;
 	}
 
-	public String getTransactionType() {
+	public TransactionType getTransactionType() {
 		return transactionType;
 	}
 
-	public void setTransactionType(String transactionType) {
+	public void setTransactionType(TransactionType transactionType) {
 		this.transactionType = transactionType;
 	}
 
