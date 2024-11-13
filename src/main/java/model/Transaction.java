@@ -38,7 +38,6 @@ public class Transaction {
 	
 	@ManyToOne
 	@JoinColumn(name="id_account")
-	@Column(name="account")
 	private Account account;	
 
 	public Transaction() {

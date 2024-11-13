@@ -2,8 +2,6 @@ package service;
 
 import java.util.Date;
 import java.util.List;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 import dao.TransactionDao;
 import model.Transaction;
@@ -21,17 +19,17 @@ public class TransactionService {
 		return dao.insert(transaction);
 	}
 
-	public List<Transaction> listAllByCpf(String transactionType) {
-		return dao.listAllByCpf(transactionType);
+	public List<Transaction> listAllById(Long id) {
+		return dao.listAllById(id);
 	}
 
-    public List<Transaction> balanceInquiryMonth(String cpf, String month, String year) {
+    public List<Transaction> balanceInquiryMonth(Long id, String month, String year) {
 		String dateStr = year+"-"+month;
-        return dao.balanceInquiryMonth(cpf, dateStr);
+        return dao.balanceInquiryMonth(id, dateStr);
     }
 
-	public List<Transaction> balanceInquiryPeriod(String cpf, String startDate, String endDate) {
-		return dao.balanceInquiryPeriod(cpf, startDate, endDate);
+	public List<Transaction> balanceInquiryPeriod(Long id, String startDate, String endDate) {
+		return dao.balanceInquiryPeriod(id, startDate, endDate);
 	}
 
 }

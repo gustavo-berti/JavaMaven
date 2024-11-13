@@ -83,7 +83,7 @@ public class TransactionDao {
 
 	public List<Transaction> listAll() {
 		try {
-			List<Transaction> transactions = em.createQuery("from Transaction").getResultList();
+			List<Transaction> transactions = em.createQuery("from Transaction", Transaction.class).getResultList();
 			em.close();
 			return transactions;
 		} catch (Exception e) {
@@ -93,9 +93,9 @@ public class TransactionDao {
 		
 	}
 
-	public List<Transaction> listAllByCpf(String accountHolderCpf) {
+	public List<Transaction> listAllById(Long id) {
 		try {
-			List<Transaction> transactions = em.createQuery("FROM Transaction WHERE accountHolderCpf = '" + accountHolderCpf+"'").getResultList();
+			List<Transaction> transactions = em.createQuery("SELECT t FROM Transaction t INNER JOIN t.account a WHERE a.id =  " +id,Transaction.class).getResultList();
 			em.close();
 			return transactions;
 		} catch (Exception e) {
@@ -116,9 +116,9 @@ public class TransactionDao {
 		}
 	}
 		
-	public List<Transaction> balanceInquiryMonth(String accountHolderCpf, String date) {
+	public List<Transaction> balanceInquiryMonth(Long id, String date) {
 		try {
-			List<Transaction> transactions = em.createQuery("FROM Transaction WHERE accountHolderCpf = '" + accountHolderCpf+"' AND transaction_date BETWEEN '"+ date+"-01' AND '"+date+"-31'").getResultList();
+			List<Transaction> transactions = em.createQuery("SELECT t FROM Transaction t INNER JOIN t.account a WHERE a.id = " +id+" AND t.transactionDate BETWEEN '"+ date+"-01' AND '"+date+"-31'", Transaction.class).getResultList();
 			em.close();
 			return transactions;
 		} catch (Exception e) {
@@ -127,9 +127,9 @@ public class TransactionDao {
 		}
 	}
 
-	public List<Transaction> balanceInquiryPeriod(String accountHolderCpf, String startDateStr, String endDateStr) {
+	public List<Transaction> balanceInquiryPeriod(Long id, String startDateStr, String endDateStr) {
 		try {
-			List<Transaction> transactions = em.createQuery("FROM Transaction WHERE accountHolderCpf = '" + accountHolderCpf+"' AND transaction_date BETWEEN '"+ startDateStr+"' AND '"+endDateStr+"'").getResultList();
+			List<Transaction> transactions = em.createQuery("SELECT t FROM Transaction t INNER JOIN t.account a WHERE a.id =  " +id+" AND t.transactionDate BETWEEN '"+ startDateStr+"' AND '"+endDateStr+"'",Transaction.class).getResultList();
 			em.close();
 			return transactions;
 		} catch (Exception e) {

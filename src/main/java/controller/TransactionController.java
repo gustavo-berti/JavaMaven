@@ -14,12 +14,12 @@ public class TransactionController {
 		return service.insert(transaction);
 	}
 
-	public List<Transaction> balanceInquiryMonth(String cpf, String month, String year) {
-		return service.balanceInquiryMonth(cpf, month, year);
+	public List<Transaction> balanceInquiryMonth(Long id, String month, String year) {
+		return service.balanceInquiryMonth(id, month, year);
 	}
 
-	public List<Transaction> balanceInquiryPeriod(String cpf, String startDate, String endDate) {
-		return service.balanceInquiryPeriod(cpf, startDate, endDate);
+	public List<Transaction> balanceInquiryPeriod(Long id, String startDate, String endDate) {
+		return service.balanceInquiryPeriod(id, startDate, endDate);
 	}
 
 }

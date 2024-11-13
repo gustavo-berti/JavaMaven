@@ -22,7 +22,6 @@ public class Account {
 	
 	@ManyToOne
 	@JoinColumn(name = "id_client")
-	@Column(name="client")
 	private Client client;
 	
 	@Column(name="open_date")

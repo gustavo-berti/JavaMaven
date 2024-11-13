@@ -5,6 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import model.Client;
+import model.Transaction;
 
 public class ClientDao {
 	protected EntityManager em;
@@ -20,7 +21,7 @@ public class ClientDao {
 		}
 		return em;
 	}
-	
+
 	public Client insert(Client client) {
 		try {
 			em.getTransaction().begin();
@@ -31,7 +32,7 @@ public class ClientDao {
 		} catch (Exception e) {
 			em.getTransaction().rollback();
 			em.close();
-			
+
 			return null;
 		}
 	}
@@ -54,7 +55,7 @@ public class ClientDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
-		}		
+		}
 	}
 
 	public void delete(Long id) {
@@ -70,10 +71,21 @@ public class ClientDao {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private Client findById(Long id) {
 		Client client = em.find(Client.class, id);
 		em.close();
 		return client;
+	}
+
+	public Client getClient(Long id) {
+		try {
+			Client client = em.createQuery("FROM Client WHERE id = '" + id + "'", Client.class).getSingleResult();
+			em.close();
+			return client;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }
