@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import dao.TransactionDao;
+import model.Account;
 import model.Transaction;
 import util.TransactionUtils;
 
@@ -31,5 +32,19 @@ public class TransactionService {
 	public List<Transaction> balanceInquiryPeriod(Long id, String startDate, String endDate) {
 		return dao.balanceInquiryPeriod(id, startDate, endDate);
 	}
+
+	public double getAverangeBalancePeriod(Long id, String startDate, String endDate) {
+		List<Transaction> transactions = dao.balanceInquiryPeriod(id, startDate, endDate);
+		double total = 0;
+		for (Transaction transaction : transactions) {
+			total += transaction.getOperationValue();
+		}
+		return total / transactions.size();
+	}
+
+    public double getBalance(Account account) {
+        List<Transaction> transactions = dao.listAllById(account.getId());
+		return TransactionUtils.getBalance(transactions);
+    }
 
 }

@@ -129,7 +129,7 @@ public class TransactionDao {
 
 	public List<Transaction> balanceInquiryPeriod(Long id, String startDateStr, String endDateStr) {
 		try {
-			List<Transaction> transactions = em.createQuery("SELECT t FROM Transaction t INNER JOIN t.account a WHERE a.id =  " +id+" AND t.transactionDate BETWEEN '"+ startDateStr+"' AND '"+endDateStr+"'",Transaction.class).getResultList();
+			List<Transaction> transactions = em.createQuery("SELECT t FROM Transaction t INNER JOIN t.account a WHERE a.id = " +id+" AND t.transactionDate BETWEEN '"+ startDateStr+"' AND '"+endDateStr+"'",Transaction.class).getResultList();
 			em.close();
 			return transactions;
 		} catch (Exception e) {

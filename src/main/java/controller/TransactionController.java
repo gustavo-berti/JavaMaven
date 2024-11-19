@@ -1,8 +1,8 @@
 package controller;
 
-import java.util.Date;
 import java.util.List;
 
+import model.Account;
 import model.Transaction;
 import service.TransactionService;
 
@@ -21,5 +21,13 @@ public class TransactionController {
 	public List<Transaction> balanceInquiryPeriod(Long id, String startDate, String endDate) {
 		return service.balanceInquiryPeriod(id, startDate, endDate);
 	}
+
+	public double getAverangeBalancePeriod(Long id, String startDate, String endDate) {
+		return service.getAverangeBalancePeriod(id, startDate, endDate);
+	}
+
+    public double getBalance(Account account) {
+        return service.getBalance(account);
+    }
 
 }

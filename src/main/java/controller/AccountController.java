@@ -21,4 +21,12 @@ public class AccountController {
         return accountService.listAllByClient(account);
     }
 
+    public Double calculateApprovedLimit(Account account) {
+        return accountService.calculateApprovedLimit(account);
+    }
+
+    public Double monthlyIncome(Account account, int months) {
+        return accountService.monthlyIncome(account, months);
+    }
+
 }

@@ -31,6 +31,9 @@ public class Account {
 	@Column(name="account_type")
 	private AccountType accountType;
 
+	@Column(name="approved_limit")
+	private Double approvedLimit;
+
 	public Long getId() {
 		return id;
 	}
@@ -63,10 +66,18 @@ public class Account {
 		this.accountType = accountType;
 	}
 
+	public Double getApprovedLimit() {
+		return approvedLimit;
+	}
+
+	public void setApprovedLimit(Double approvedLimit) {
+		this.approvedLimit = approvedLimit;
+	}
+
 	@Override
 	public String toString() {
 		return "Account [id=" + id + ", client=" + client + ", openDate=" + openDate + ", accountType=" + accountType
-				+ "]";
+				+ ", approvedLimit=" + approvedLimit + "]";
 	}
 
 }

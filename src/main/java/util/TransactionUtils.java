@@ -6,8 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import controller.ClientController;
-import model.Client;
 import model.Transaction;
 import model.enums.TransactionType;
 import service.TransactionService;
@@ -114,20 +112,16 @@ public class TransactionUtils {
 	}
 
 	private static boolean withdrawalLimit(Transaction transaction, List<Transaction> transactions) {
-		if (!transaction.getTransactionType().equals(TransactionType.WITHDRAWAL)) {
+		if (!transaction.getTransactionType().equals(TransactionType.WITHDRAWAL)) 
 			return false;
-		}
+		
 		double totalWithdrawal = 0 + transaction.getOperationValue();
 		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		Date day = null;
-		try {
-			day = formatter.parse(formatter.format(transaction.getTransactionDate()));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
 		for (Transaction t : transactions) {
 			Date dayT = null;
 			try {
+				day = formatter.parse(formatter.format(transaction.getTransactionDate()));
 				dayT = formatter.parse(formatter.format(t.getTransactionDate()));
 			} catch (ParseException e) {
 				e.printStackTrace();
@@ -144,7 +138,7 @@ public class TransactionUtils {
 		return false;
 	}
 
-	private static double getBalance(List<Transaction> transactions) {
+	public static double getBalance(List<Transaction> transactions) {
 		double balance = 0;
 		for (Transaction transaction : transactions) {
 			if (transaction.getTransactionType().equals(TransactionType.DEPOSIT)) {
@@ -157,7 +151,7 @@ public class TransactionUtils {
 	}
 
 	private static boolean confirmBalance(Transaction transaction, List<Transaction> transactions) {
-		if (transaction.getTransactionType().equals(TransactionType.DEPOSIT)) {
+		if (!transaction.getTransactionType().equals(TransactionType.DEPOSIT)) {
 			double balance = TransactionUtils.getBalance(transactions);
 			if (balance - transaction.getOperationValue() < 0) {
 				return true;
@@ -165,4 +159,11 @@ public class TransactionUtils {
 		}
 		return false;
 	}
+
+	private static void cashback(Transaction transaction) {
+		if (transaction.getTransactionType().equals(TransactionType.DEBIT_CARD)) {
+						
+		}
+	}
+
 }

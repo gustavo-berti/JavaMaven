@@ -6,10 +6,8 @@ import java.util.Scanner;
 
 import controller.AccountController;
 import controller.TransactionController;
-import model.Account;
 import model.Transaction;
 import model.enums.TransactionType;
-import service.AccountService;
 
 public class TransactionScreen {
 
@@ -96,7 +94,7 @@ public class TransactionScreen {
 			default:
 				break;
 		}
-
+		scan.close();
 	}
 
 }
