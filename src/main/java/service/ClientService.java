@@ -1,7 +1,6 @@
 package service;
 
 import dao.ClientDao;
-import model.Account;
 import model.Client;
 import util.ClientUtils;
 public class ClientService {

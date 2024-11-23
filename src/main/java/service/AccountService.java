@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import controller.TransactionController;
 import dao.AccountDao;
 import model.Account;
 import model.enums.AccountType;
@@ -35,13 +34,13 @@ public class AccountService {
     }
 
     public Double calculateApprovedLimit(Account account) {
-        TransactionController transactionController = new TransactionController();
+        TransactionService transactionService = new TransactionService();
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String endDate = formatter.format(new Date()).toString();
         Date date = new Date();
         date.setMonth(date.getMonth() - 3);
         String startDate = formatter.format(date).toString();
-        double limit = transactionController.getAverangeBalancePeriod(account.getId(), startDate, endDate);
+        double limit = transactionService.getAverangeBalancePeriod(account.getId(), startDate, endDate);
         account.setApprovedLimit(limit);
         return limit;
     }

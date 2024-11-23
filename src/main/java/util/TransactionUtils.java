@@ -7,15 +7,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import controller.TransactionController;
 import model.Transaction;
 import model.enums.TransactionType;
+import service.TransactionService;
 
 public class TransactionUtils {
-	private static TransactionController controller = new TransactionController();
+	private static TransactionService service = new TransactionService();
 
 	public static boolean transactionValid(Transaction transaction) {
-		List<Transaction> transactions = controller.listAllById(transaction.getAccount().getId());
+		List<Transaction> transactions = service.listAllById(transaction.getAccount().getId());
 		if (TransactionUtils.confirmBalance(transaction, transactions)) {
 			System.out.println("Balance not sufficient");
 			return true;
@@ -172,21 +172,21 @@ public class TransactionUtils {
 		cashback.setTransactionType(TransactionType.CASHBACK);		
 		cashback.setDescription(cashback.getTransactionType() + " Operation");
 	
-		List<Transaction> transactions = controller.listAllByTransactionType(cashback);
+		List<Transaction> transactions = service.listAllByTransactionType(cashback);
 	
 		for (Transaction t : transactions) {
 			if (isWithinRange(t.getTransactionDate(), transaction.getTransactionDate(), startOfNextMonth)) {
 				cashback.setOperationValue(t.getOperationValue() + cashbackValue);
 				cashback.setId(t.getId());
 				cashback.setTransactionDate(startOfNextMonth);
-				controller.update(cashback);
+				service.update(cashback);
 				return;
 			}
 		}
 	
 		cashback.setOperationValue(cashbackValue);
 		cashback.setTransactionDate(startOfNextMonth);
-		controller.insertCashback(cashback);
+		service.insertCashback(cashback);
 	}
 	
 	private static Date getStartOfNextMonth(Date date) {
