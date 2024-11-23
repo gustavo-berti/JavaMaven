@@ -7,20 +7,21 @@ import controller.ClientController;
 import dao.AccountDao;
 import dao.TransactionDao;
 import model.Account;
+import model.Transaction;
 import model.enums.AccountType;
+import model.enums.TransactionType;
+import util.TransactionUtils;
 
 public class Main {
 	public static void main(String[] args) {
-		ClientController clientController = new ClientController();
 		AccountController accountController = new AccountController();
-		AccountDao dao = new AccountDao();
-		TransactionDao transactionDao = new TransactionDao();
-		Account account = new Account();
-		long id = 1;
+		Transaction transaction = new Transaction();
+		transaction.setTransactionDate(new Date());
+		transaction.setOperationValue(50.0);
+		transaction.setTransactionType(TransactionType.DEBIT_CARD);
+		transaction.setAccount(accountController.getAccount((long) 1));
 
-		account = dao.getAccount(id);
-		double income = accountController.monthlyIncome(account,2);
+		TransactionUtils.cashback(transaction);
 
-		System.out.println("Monstly income: " + income);
 	}
 }

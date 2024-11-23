@@ -15,4 +15,8 @@ public class ClientController {
         return clientService.getClient(id);
     }
 
+    public Client getClientByCpf(String nextLine) {
+        return clientService.getClientByCpf(nextLine);
+    }
+
 }

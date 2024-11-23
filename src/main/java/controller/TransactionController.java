@@ -14,6 +14,10 @@ public class TransactionController {
 		return service.insert(transaction);
 	}
 
+	public Transaction update(Transaction transaction) {
+		return service.update(transaction);
+	}
+
 	public List<Transaction> balanceInquiryMonth(Long id, String month, String year) {
 		return service.balanceInquiryMonth(id, month, year);
 	}
@@ -29,5 +33,17 @@ public class TransactionController {
     public double getBalance(Account account) {
         return service.getBalance(account);
     }
+
+	public List<Transaction> listAllById(Long id) {
+		return service.listAllById(id);
+	}
+
+	public List<Transaction> listAllByTransactionType(Transaction transaction) {
+		return service.listAllByTransactionType(transaction);
+	}
+
+	public Transaction insertCashback(Transaction cashback) {
+		return service.insertCashback(cashback);
+	}
 
 }

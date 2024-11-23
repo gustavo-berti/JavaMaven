@@ -12,16 +12,27 @@ public class TransactionService {
 	TransactionDao dao = new TransactionDao();
 
 	public Transaction insert(Transaction transaction) {
-		if (TransactionUtils.transactionValid(transaction)) {
+		if (TransactionUtils.transactionValid(transaction))
 			return null;
-		}
 		transaction.setDescription(transaction.getTransactionType() + " Operation");
 		transaction.setTransactionDate(new Date());
 		return dao.insert(transaction);
 	}
+	
+    public Transaction insertCashback(Transaction cashback) {
+        return dao.insert(cashback);
+    }
+
+	public Transaction update(Transaction transaction) {
+		return dao.update(transaction);
+	}
 
 	public List<Transaction> listAllById(Long id) {
 		return dao.listAllById(id);
+	}
+
+	public List<Transaction> listAllByTransactionType(Transaction transaction) {
+		return dao.listAllByTransactionType(transaction.getTransactionType());
 	}
 
     public List<Transaction> balanceInquiryMonth(Long id, String month, String year) {

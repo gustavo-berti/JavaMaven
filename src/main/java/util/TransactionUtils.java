@@ -3,18 +3,19 @@ package util;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import controller.TransactionController;
 import model.Transaction;
 import model.enums.TransactionType;
-import service.TransactionService;
 
 public class TransactionUtils {
-	private static TransactionService service = new TransactionService();
+	private static TransactionController controller = new TransactionController();
 
 	public static boolean transactionValid(Transaction transaction) {
-		List<Transaction> transactions = service.listAllById(transaction.getAccount().getId());
+		List<Transaction> transactions = controller.listAllById(transaction.getAccount().getId());
 		if (TransactionUtils.confirmBalance(transaction, transactions)) {
 			System.out.println("Balance not sufficient");
 			return true;
@@ -35,7 +36,7 @@ public class TransactionUtils {
 			System.out.println("Daily operation limit exceeded");
 			return true;
 		}
-		if (TransactionUtils.isFraud(transactions)) {
+		if (TransactionUtils.isFraud(transactions, transaction)) {
 			System.out.println("Fraud detected");
 			return true;
 		}
@@ -43,20 +44,24 @@ public class TransactionUtils {
 				&& !transaction.getTransactionType().equals(TransactionType.DEPOSIT)) {
 			System.out.println("Balance less than 100");
 		}
+		if (transaction.getTransactionType().equals(TransactionType.DEBIT_CARD)) {
+			TransactionUtils.cashback(transaction);
+		}
 		TransactionUtils.transactionFee(transaction);
 		return false;
 	}
 
-	private static boolean isFraud(List<Transaction> transactions) {
+	private static boolean isFraud(List<Transaction> transactions, Transaction transaction) {
 		double total = 0;
 		int count = 0;
-		for (Transaction transaction : transactions) {
-			if (!transaction.getTransactionType().equals(TransactionType.DEPOSIT)) {
-				total += transaction.getOperationValue();
+		for (Transaction t : transactions) {
+			if (!t.getTransactionType().equals(TransactionType.DEPOSIT)) {
+				total += t.getOperationValue();
 				count++;
 			}
 		}
-		if ((total + 1000) > (total / count) && count != 0) {
+		double average = total / count;
+		if (average + 1000 < transaction.getOperationValue()) {
 			return true;
 		}
 		return false;
@@ -112,9 +117,9 @@ public class TransactionUtils {
 	}
 
 	private static boolean withdrawalLimit(Transaction transaction, List<Transaction> transactions) {
-		if (!transaction.getTransactionType().equals(TransactionType.WITHDRAWAL)) 
+		if (!transaction.getTransactionType().equals(TransactionType.WITHDRAWAL))
 			return false;
-		
+
 		double totalWithdrawal = 0 + transaction.getOperationValue();
 		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		Date day = null;
@@ -160,10 +165,40 @@ public class TransactionUtils {
 		return false;
 	}
 
-	private static void cashback(Transaction transaction) {
-		if (transaction.getTransactionType().equals(TransactionType.DEBIT_CARD)) {
-						
+	public static void cashback(Transaction transaction) {
+		Date startOfNextMonth = getStartOfNextMonth(transaction.getTransactionDate());
+		double cashbackValue = transaction.getOperationValue() * 0.002;
+		Transaction cashback = transaction;
+		cashback.setTransactionType(TransactionType.CASHBACK);		
+		cashback.setDescription(cashback.getTransactionType() + " Operation");
+	
+		List<Transaction> transactions = controller.listAllByTransactionType(cashback);
+	
+		for (Transaction t : transactions) {
+			if (isWithinRange(t.getTransactionDate(), transaction.getTransactionDate(), startOfNextMonth)) {
+				cashback.setOperationValue(t.getOperationValue() + cashbackValue);
+				cashback.setId(t.getId());
+				cashback.setTransactionDate(startOfNextMonth);
+				controller.update(cashback);
+				return;
+			}
 		}
+	
+		cashback.setOperationValue(cashbackValue);
+		cashback.setTransactionDate(startOfNextMonth);
+		controller.insertCashback(cashback);
+	}
+	
+	private static Date getStartOfNextMonth(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.MONTH, 1);
+		calendar.set(Calendar.DAY_OF_MONTH, 1);
+		return calendar.getTime();
+	}
+	
+	private static boolean isWithinRange(Date dateToCheck, Date startDate, Date endDate) {
+		return dateToCheck.after(startDate) && dateToCheck.before(endDate);
 	}
 
 }

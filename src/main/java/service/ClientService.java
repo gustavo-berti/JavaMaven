@@ -24,4 +24,8 @@ public class ClientService {
         return client;
     }
 
+    public Client getClientByCpf(String nextLine) {
+        return dao.getClientByCpf(nextLine);
+    }
+
 }

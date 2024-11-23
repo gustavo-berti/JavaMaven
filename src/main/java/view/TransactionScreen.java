@@ -27,7 +27,7 @@ public class TransactionScreen {
 		switch (item) {
 			case 1:
 				transaction.setTransactionDate(new Date());
-				System.out.println("1. Deposit\n2. Withdrawal\n3. Payment\n4. PIX");
+				System.out.println("1. Deposit\n2. Withdrawal\n3. Payment\n4. PIX\n5. Debit Card");
 				int type = scan.nextInt();
 				switch (type) {
 					case 1:
@@ -45,11 +45,16 @@ public class TransactionScreen {
 					case 4:
 						transaction.setTransactionType(TransactionType.PIX);
 						break;
+					
+					case 5:
+						transaction.setTransactionType(TransactionType.DEBIT_CARD);
+						break;
 
 					default:
-						break;
+						return;
 				}
-				transaction.setOperationValue(20000.0);
+				System.out.println("Insert Operation Value: ");
+				transaction.setOperationValue(scan.nextDouble());
 				controller.insert(transaction);
 				break;
 			case 2:
@@ -88,11 +93,11 @@ public class TransactionScreen {
 						}
 						break;
 					default:
-						break;
+						return;
 				}
 				break;
 			default:
-				break;
+				return;
 		}
 		scan.close();
 	}
