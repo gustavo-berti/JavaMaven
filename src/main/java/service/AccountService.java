@@ -6,13 +6,15 @@ import java.util.Date;
 import java.util.List;
 
 import dao.AccountDao;
+import dao.GenericDao;
 import model.Account;
 import model.enums.AccountType;
 import util.AccountUtils;
 
-public class AccountService {
+public class AccountService implements BasicService <Account>{
     AccountDao dao = new AccountDao();
 
+    @Override
     public Account insert(Account account) {
         if(AccountUtils.totalAccounts(account)) {
             return null;
@@ -51,6 +53,11 @@ public class AccountService {
             return income;
         }
         return null;
+    }
+
+    @Override
+    public GenericDao<Account> getDao() {
+        return dao;
     }
 
 }

@@ -1,6 +1,6 @@
 package util;
 
-public class ClientUtils {
+public class ValidateCpf {
     
     public static boolean validateCpf(String cpf) {
 		cpf = cpf.replace("-", "").replace(".", "");

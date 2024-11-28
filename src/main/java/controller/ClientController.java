@@ -1,22 +1,28 @@
 package controller;
 
 import model.Client;
+import service.BasicService;
 import service.ClientService;
 
-public class ClientController {
+public class ClientController implements BasicController<Client>{
 
-    ClientService clientService = new ClientService();
+    ClientService service = new ClientService();
 
     public Client insert(Client client) {
-        return clientService.insert(client);
+        return service.insert(client);
     }
 
     public Client getClient(Long id) {
-        return clientService.getClient(id);
+        return service.getClient(id);
     }
 
     public Client getClientByCpf(String nextLine) {
-        return clientService.getClientByCpf(nextLine);
+        return service.getClientByCpf(nextLine);
+    }
+
+    @Override
+    public BasicService<Client> getService() {
+        return service;
     }
 
 }

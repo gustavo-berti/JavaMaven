@@ -1,13 +1,14 @@
 package service;
 
 import dao.ClientDao;
+import dao.GenericDao;
 import model.Client;
-import util.ClientUtils;
-public class ClientService {
+import util.ValidateCpf;
+public class ClientService implements BasicService<Client>{
     ClientDao dao = new ClientDao();
 
     public Client insert(Client client) {
-        if(!ClientUtils.validateCpf(client.getCpf())) {
+        if(!ValidateCpf.validateCpf(client.getCpf())) {
             System.out.println("Invalid CPF");
             return null;
         }
@@ -25,6 +26,11 @@ public class ClientService {
 
     public Client getClientByCpf(String nextLine) {
         return dao.getClientByCpf(nextLine);
+    }
+
+    @Override
+    public GenericDao<Client> getDao() {
+        return dao;
     }
 
 }

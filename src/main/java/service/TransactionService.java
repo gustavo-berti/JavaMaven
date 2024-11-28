@@ -3,14 +3,16 @@ package service;
 import java.util.Date;
 import java.util.List;
 
+import dao.GenericDao;
 import dao.TransactionDao;
 import model.Account;
 import model.Transaction;
 import util.TransactionUtils;
 
-public class TransactionService {
+public class TransactionService implements BasicService<Transaction> {
 	TransactionDao dao = new TransactionDao();
 
+	@Override
 	public Transaction insert(Transaction transaction) {
 		if (TransactionUtils.transactionValid(transaction))
 			return null;
@@ -18,13 +20,9 @@ public class TransactionService {
 		transaction.setTransactionDate(new Date());
 		return dao.insert(transaction);
 	}
-	
-    public Transaction insertCashback(Transaction cashback) {
-        return dao.insert(cashback);
-    }
 
-	public Transaction update(Transaction transaction) {
-		return dao.update(transaction);
+	public Transaction insertCashback(Transaction cashback) {
+		return dao.insert(cashback);
 	}
 
 	public List<Transaction> listAllById(Long id) {
@@ -35,10 +33,10 @@ public class TransactionService {
 		return dao.listAllByTransactionType(transaction.getTransactionType());
 	}
 
-    public List<Transaction> balanceInquiryMonth(Long id, String month, String year) {
-		String dateStr = year+"-"+month;
-        return dao.balanceInquiryMonth(id, dateStr);
-    }
+	public List<Transaction> balanceInquiryMonth(Long id, String month, String year) {
+		String dateStr = year + "-" + month;
+		return dao.balanceInquiryMonth(id, dateStr);
+	}
 
 	public List<Transaction> balanceInquiryPeriod(Long id, String startDate, String endDate) {
 		return dao.balanceInquiryPeriod(id, startDate, endDate);
@@ -53,9 +51,14 @@ public class TransactionService {
 		return total / transactions.size();
 	}
 
-    public double getBalance(Account account) {
-        List<Transaction> transactions = dao.listAllById(account.getId());
+	public double getBalance(Account account) {
+		List<Transaction> transactions = dao.listAllById(account.getId());
 		return TransactionUtils.getBalance(transactions);
-    }
+	}
+
+	@Override
+	public GenericDao<Transaction> getDao() {
+		return dao;
+	}
 
 }

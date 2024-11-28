@@ -4,19 +4,12 @@ import java.util.List;
 
 import model.Account;
 import model.Transaction;
+import service.BasicService;
 import service.TransactionService;
 
-public class TransactionController {
+public class TransactionController implements BasicController<Transaction>{
 	
 	TransactionService service = new TransactionService();
-	
-	public Transaction insert(Transaction transaction) {
-		return service.insert(transaction);
-	}
-
-	public Transaction update(Transaction transaction) {
-		return service.update(transaction);
-	}
 
 	public List<Transaction> balanceInquiryMonth(Long id, String month, String year) {
 		return service.balanceInquiryMonth(id, month, year);
@@ -44,6 +37,11 @@ public class TransactionController {
 
 	public Transaction insertCashback(Transaction cashback) {
 		return service.insertCashback(cashback);
+	}
+
+	@Override
+	public BasicService<Transaction> getService() {
+		return service;
 	}
 
 }
